@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metamorphosis - květinový salon v Praze</title>
+<meta name="description" content="Metamorphosis - floristické studio ve Starém Městě v Praze. Kytice na míru, svatební floristika, výzdoba událostí a doručení květin.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,400;1,9..144,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --cream: #FBF6EF;
+    --cream-deep: #F3EADC;
+    --blush: #E9CFC8;
+    --blush-soft: #F3E1DC;
+    --sage: #97A788;
+    --sage-deep: #6C7C5E;
+    --wine: #6B3B45;
+    --wine-deep: #4A2833;
+    --gold: #C6A567;
+    --ink: #3B322C;
+    --ink-soft: #6B5F55;
+    --paper: #FFFDFA;
+
+    --display: "Fraunces", serif;
+    --body: "Jost", sans-serif;
+
+    --container: 1120px;
+    --radius: 2px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *, *::before, *::after{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
+
+  body{
+    font-family: var(--body);
+    background: var(--cream);
+    color: var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x:hidden;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  ul{ list-style:none; }
+
+  .container{
+    width:100%;
+    max-width: var(--container);
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  h1,h2,h3,h4{
+    font-family: var(--display);
+    font-weight:450;
+    color: var(--wine-deep);
+    letter-spacing:0.01em;
+  }
+
+  .eyebrow{
+    font-family: var(--body);
+    font-size:0.72rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color: var(--sage-deep);
+    font-weight:500;
+  }
+
+  :focus-visible{
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  /* ---------- HEADER ---------- */
+  .site-header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    padding:18px 0;
+    background: linear-gradient(to bottom, rgba(18,12,10,0.46), rgba(18,12,10,0));
+    transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+  }
+  .site-header.is-scrolled,
+  .site-header.is-menu-open{
+    background: rgba(251,246,239,0.94);
+    backdrop-filter: blur(10px);
+    padding:12px 0;
+    box-shadow: 0 1px 0 rgba(107,59,69,0.08);
+  }
+  .header-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    font-family: var(--display);
+    font-style:italic;
+    font-size:1.5rem;
+    color: var(--paper);
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    transition: color .3s ease;
+  }
+  .site-header.is-scrolled .logo,
+  .site-header.is-menu-open .logo{ color: var(--wine-deep); }
+  .logo small{
+    font-family:var(--body);
+    font-style:normal;
+    font-size:0.6rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color: rgba(255,253,250,0.78);
+    transition: color .3s ease;
+  }
+  .site-header.is-scrolled .logo small,
+  .site-header.is-menu-open .logo small{ color: var(--sage-deep); }
+  .nav-desktop{
+    display:flex;
+    align-items:center;
+    gap:34px;
+  }
+  .nav-desktop a{
+    font-size:0.86rem;
+    letter-spacing:0.03em;
+    color: rgba(255,253,250,0.86);
+    position:relative;
+    padding:4px 0;
+    transition: color 0.25s ease;
+  }
+  .site-header.is-scrolled .nav-desktop a,
+  .site-header.is-menu-open .nav-desktop a{ color: var(--ink-soft); }
+  .nav-desktop a::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:0;
+    height:1px;
+    width:0%;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+  .nav-desktop a:hover,
+  .nav-desktop a.is-active{ color: var(--paper); }
+  .site-header.is-scrolled .nav-desktop a:hover,
+  .site-header.is-scrolled .nav-desktop a.is-active,
+  .site-header.is-menu-open .nav-desktop a:hover,
+  .site-header.is-menu-open .nav-desktop a.is-active{ color: var(--wine); }
+  .nav-desktop a:hover::after,
+  .nav-desktop a.is-active::after{ width:100%; }
+
+  .nav-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:0.8rem;
+    letter-spacing:0.04em;
+    padding:10px 20px;
+    border:1px solid rgba(255,253,250,0.72);
+    color: var(--paper);
+    border-radius: var(--radius);
+    transition: background 0.3s ease, color 0.3s ease, border-color .3s ease;
+    white-space:nowrap;
+  }
+  .site-header.is-scrolled .nav-cta,
+  .site-header.is-menu-open .nav-cta{
+    border-color: var(--wine-deep);
+    color: var(--wine-deep);
+  }
+  .nav-cta:hover{ background: var(--wine-deep); color: var(--paper); border-color: var(--wine-deep); }
+
+  .burger{
+    display:none;
+    width:36px; height:36px;
+    border:none; background:none;
+    cursor:pointer;
+    position:relative;
+    z-index:110;
+  }
+  .burger span{
+    position:absolute;
+    left:8px; right:8px;
+    height:1px;
+    background: var(--paper);
+    transition: transform 0.3s ease, opacity 0.3s ease, background .3s ease;
+  }
+  .site-header.is-scrolled .burger span,
+  .site-header.is-menu-open .burger span{ background: var(--wine-deep); }
+  .burger span:nth-child(1){ top:13px; }
+  .burger span:nth-child(2){ top:19px; }
+  .burger span:nth-child(3){ top:25px; }
+  .burger.is-open span:nth-child(1){ transform: translateY(6px) rotate(45deg); }
+  .burger.is-open span:nth-child(2){ opacity:0; }
+  .burger.is-open span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
+
+  .mobile-nav{
+    position:fixed;
+    inset:0;
+    background: var(--cream);
+    z-index:105;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:28px;
+    transform: translateY(-100%);
+    transition: transform 0.45s cubic-bezier(.65,0,.35,1);
+  }
+  .mobile-nav.is-open{ transform: translateY(0); }
+  .mobile-nav a{
+    font-family: var(--display);
+    font-size:1.6rem;
+    color: var(--wine-deep);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:86svh;
+    display:flex;
+    align-items:flex-end;
+    padding-top:118px;
+    padding-bottom:70px;
+    color: var(--paper);
+    background:
+      linear-gradient(90deg, rgba(28,20,18,0.76) 0%, rgba(28,20,18,0.50) 42%, rgba(28,20,18,0.16) 100%),
+      linear-gradient(180deg, rgba(28,20,18,0.14) 0%, rgba(28,20,18,0.44) 100%),
+      url("https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=1800&q=82") center/cover;
+    overflow:hidden;
+  }
+  .hero-copy{
+    max-width:650px;
+  }
+  .hero-copy .eyebrow{
+    margin-bottom:18px;
+    color: rgba(255,253,250,0.82);
+  }
+  .hero-copy h1{
+    font-size: clamp(3rem, 8vw, 5.8rem);
+    line-height:0.96;
+    max-width:10ch;
+    margin-bottom:22px;
+    color: var(--paper);
+  }
+  .hero-copy p.lede{
+    font-size: clamp(1.02rem, 2vw, 1.18rem);
+    color: rgba(255,253,250,0.86);
+    max-width:48ch;
+    margin-bottom:28px;
+  }
+
+  .rating-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 16px;
+    background: rgba(255,253,250,0.12);
+    border:1px solid rgba(255,253,250,0.26);
+    border-radius: var(--radius);
+    margin-bottom:30px;
+    font-size:0.85rem;
+    backdrop-filter: blur(8px);
+  }
+  .rating-badge .stars{ color: var(--gold); letter-spacing:1px; font-size:0.9rem; }
+  .rating-badge strong{ color: var(--paper); font-family: var(--display); }
+  .rating-badge span.dim{ color: rgba(255,253,250,0.72); }
+
+  .hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-bottom:24px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    min-height:48px;
+    padding:14px 26px;
+    font-size:0.85rem;
+    letter-spacing:0.03em;
+    border-radius: var(--radius);
+    border:1px solid transparent;
+    cursor:pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color .25s ease, border-color .25s ease;
+  }
+  .btn-primary{
+    background: var(--wine-deep);
+    color: var(--paper);
+    box-shadow: 0 8px 20px -8px rgba(74,40,51,0.55);
+  }
+  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 12px 24px -8px rgba(74,40,51,0.6); }
+  .btn-ghost{
+    border-color: rgba(255,253,250,0.48);
+    color: var(--paper);
+    background: rgba(255,253,250,0.08);
+  }
+  .btn-ghost:hover{ border-color: var(--paper); background: rgba(255,253,250,0.16); }
+
+  .open-now{
+    font-size:0.86rem;
+    color: rgba(255,253,250,0.82);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    min-height:22px;
+  }
+  .open-now .dot{
+    width:7px; height:7px;
+    border-radius:50%;
+    background: var(--sage);
+    box-shadow: 0 0 0 3px rgba(151,167,136,0.25);
+  }
+  .open-now.is-closed .dot{
+    background: var(--gold);
+    box-shadow: 0 0 0 3px rgba(198,165,103,0.24);
+  }
+
+  /* ---------- SECTION shared ---------- */
+  section{ padding:100px 0; position:relative; }
+  .section-head{
+    max-width:640px;
+    margin-bottom:56px;
+  }
+  .section-head h2{
+    font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+    margin-top:12px;
+  }
+  .section-head p{
+    color: var(--ink-soft);
+    margin-top:16px;
+    max-width:52ch;
+  }
+  .center{ margin-left:auto; margin-right:auto; text-align:center; }
+
+  /* ---------- ABOUT ---------- */
+  .about{ background: var(--paper); }
+  .about-grid{
+    display:grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap:64px;
+    align-items:center;
+  }
+  .about-visual{
+    position:relative;
+    aspect-ratio: 4/5;
+    border-radius: var(--radius);
+    overflow:hidden;
+    box-shadow: 0 24px 48px -24px rgba(74,40,51,0.28);
+  }
+  .about-visual img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .about-visual::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: linear-gradient(180deg, transparent, rgba(74,40,51,0.24));
+    pointer-events:none;
+  }
+  .about-text p{ color: var(--ink-soft); margin-bottom:18px; max-width:52ch; }
+  .about-text p:first-of-type::first-letter{
+    font-family: var(--display);
+    font-size:3.2rem;
+    float:left;
+    line-height:0.8;
+    padding-right:10px;
+    padding-top:6px;
+    color: var(--wine);
+    font-style:italic;
+  }
+  .quote-line{
+    margin-top:28px;
+    padding-left:20px;
+    border-left:2px solid var(--gold);
+    font-family: var(--display);
+    font-style:italic;
+    font-size:1.15rem;
+    color: var(--wine-deep);
+  }
+
+  /* ---------- SERVICES ---------- */
+  .services{ background: var(--cream); }
+  .service-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:1px;
+    background: rgba(107,59,69,0.14);
+    border:1px solid rgba(107,59,69,0.14);
+  }
+  .service-card{
+    background: var(--paper);
+    padding:40px 28px;
+    transition: background 0.35s ease;
+  }
+  .service-card:hover{ background: var(--blush-soft); }
+  .service-icon{
+    width:46px; height:46px;
+    margin-bottom:22px;
+    color: var(--wine);
+  }
+  .service-card h3{
+    font-size:1.15rem;
+    margin-bottom:12px;
+    font-weight:450;
+  }
+  .service-card p{
+    font-size:0.9rem;
+    color: var(--ink-soft);
+  }
+
+  .order-helper{
+    margin-top:54px;
+    display:grid;
+    grid-template-columns: 0.82fr 1.18fr;
+    gap:1px;
+    background: rgba(107,59,69,0.14);
+    border:1px solid rgba(107,59,69,0.14);
+  }
+  .order-copy,
+  .order-panel{
+    background: var(--paper);
+    padding:34px 32px;
+  }
+  .order-copy h3{
+    font-size:1.55rem;
+    margin:10px 0 12px;
+  }
+  .order-copy p{ color: var(--ink-soft); }
+  .control-group{ margin-bottom:24px; }
+  .control-label{
+    font-size:0.76rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color: var(--sage-deep);
+    margin-bottom:10px;
+  }
+  .segmented{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .segmented button{
+    min-height:40px;
+    padding:9px 14px;
+    border:1px solid rgba(59,50,44,0.16);
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: var(--radius);
+    cursor:pointer;
+    font: inherit;
+    transition: background .25s ease, color .25s ease, border-color .25s ease;
+  }
+  .segmented button.is-selected{
+    background: var(--wine-deep);
+    border-color: var(--wine-deep);
+    color: var(--paper);
+  }
+  .budget-row{
+    display:flex;
+    align-items:center;
+    gap:18px;
+  }
+  .budget-row input{
+    width:100%;
+    accent-color: var(--wine);
+  }
+  .budget-value{
+    min-width:92px;
+    text-align:right;
+    color: var(--wine-deep);
+    font-family: var(--display);
+    font-size:1.2rem;
+  }
+  .suggestion{
+    border-top:1px solid rgba(59,50,44,0.1);
+    padding-top:20px;
+    color: var(--ink-soft);
+  }
+  .suggestion strong{
+    display:block;
+    color: var(--wine-deep);
+    font-family: var(--display);
+    font-size:1.2rem;
+    font-weight:450;
+    margin-bottom:4px;
+  }
+  .order-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:18px;
+  }
+  .order-actions .btn{
+    min-height:44px;
+    padding:12px 18px;
+  }
+  .order-actions .btn-ghost{
+    border-color: rgba(74,40,51,0.28);
+    background: var(--cream);
+    color: var(--wine-deep);
+  }
+  .order-actions .btn-ghost:hover{
+    border-color: var(--wine-deep);
+    background: var(--blush-soft);
+    color: var(--wine-deep);
+  }
+  .copy-feedback{
+    min-height:20px;
+    margin-top:10px;
+    font-size:0.84rem;
+    color: var(--sage-deep);
+  }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials{ background: var(--wine-deep); color: var(--cream); }
+  .testimonials .eyebrow{ color: var(--gold); }
+  .testimonials .section-head h2{ color: var(--cream); }
+  .testimonials .section-head p{ color: rgba(251,246,239,0.7); }
+
+  .rating-summary{
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+    margin-bottom:56px;
+    flex-wrap:wrap;
+  }
+  .rating-summary .big{
+    font-family: var(--display);
+    font-size:4rem;
+    color: var(--cream);
+    line-height:1;
+  }
+  .rating-summary .meta .stars{ color: var(--gold); font-size:1.1rem; letter-spacing:2px; }
+  .rating-summary .meta div{ font-size:0.85rem; color: rgba(251,246,239,0.65); margin-top:6px; }
+
+  .review-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:28px;
+  }
+  .review-card{
+    background: rgba(251,246,239,0.06);
+    border:1px solid rgba(251,246,239,0.14);
+    padding:32px 28px;
+    border-radius: var(--radius);
+  }
+  .review-card .stars{ color: var(--gold); font-size:0.85rem; letter-spacing:2px; margin-bottom:16px; display:block; }
+  .review-card p{ font-size:0.94rem; color: rgba(251,246,239,0.88); margin-bottom:22px; }
+  .review-who{ display:flex; align-items:center; justify-content:space-between; gap:18px; }
+  .review-who strong{ font-family: var(--display); font-weight:450; font-size:0.95rem; color: var(--cream); }
+  .review-who span{ font-size:0.75rem; color: rgba(251,246,239,0.55); }
+
+  /* ---------- VISIT / MAP ---------- */
+  .visit{ background: var(--paper); }
+  .visit-grid{
+    display:grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap:56px;
+  }
+  .info-list{ margin-top:32px; }
+  .info-row{
+    display:flex;
+    gap:18px;
+    padding:18px 0;
+    border-bottom:1px solid rgba(59,50,44,0.1);
+  }
+  .info-row:first-child{ padding-top:0; }
+  .info-row .ico{
+    width:20px; height:20px;
+    flex-shrink:0;
+    margin-top:2px;
+    color: var(--wine);
+  }
+  .info-row .label{
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color: var(--sage-deep);
+    margin-bottom:4px;
+  }
+  .info-row .value{ font-size:0.98rem; color: var(--ink); }
+  .info-row .value a:hover{ color: var(--wine); }
+  .info-row .sub{ font-size:0.82rem; color: var(--ink-soft); margin-top:2px; }
+
+  .map-wrap{
+    position:relative;
+    border-radius: var(--radius);
+    overflow:hidden;
+    border:1px solid rgba(107,59,69,0.14);
+    box-shadow: 0 24px 48px -24px rgba(74,40,51,0.28);
+    min-height:420px;
+  }
+  .map-wrap iframe{
+    width:100%;
+    height:100%;
+    min-height:420px;
+    border:0;
+    filter: saturate(0.85) contrast(1.02);
+    display:block;
+  }
+  .map-tag{
+    position:absolute;
+    left:20px; bottom:20px;
+    background: var(--paper);
+    padding:14px 18px;
+    border-radius: var(--radius);
+    box-shadow: 0 12px 24px -10px rgba(0,0,0,0.25);
+    max-width:240px;
+  }
+  .map-tag .name{ font-family: var(--display); font-size:1rem; color: var(--wine-deep); }
+  .map-tag .addr{ font-size:0.78rem; color: var(--ink-soft); margin-top:4px; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background: var(--ink);
+    color: rgba(251,246,239,0.75);
+    padding:64px 0 28px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap:40px;
+    padding-bottom:40px;
+    border-bottom:1px solid rgba(251,246,239,0.12);
+  }
+  .footer-logo{
+    font-family: var(--display);
+    font-style:italic;
+    font-size:1.5rem;
+    color: var(--cream);
+    margin-bottom:14px;
+  }
+  footer p{ font-size:0.88rem; max-width:32ch; color: rgba(251,246,239,0.55); }
+  footer h4{
+    color: var(--cream);
+    font-size:0.78rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-weight:400;
+    margin-bottom:18px;
+  }
+  footer ul li{ margin-bottom:10px; font-size:0.9rem; }
+  footer ul li a{ color: rgba(251,246,239,0.72); transition: color .25s ease; }
+  footer ul li a:hover{ color: var(--gold); }
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-top:24px;
+    font-size:0.78rem;
+    color: rgba(251,246,239,0.4);
+    flex-wrap:wrap;
+    gap:12px;
+  }
+
+  /* ---------- REVEAL ---------- */
+  .reveal{
+    opacity:0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.is-visible{
+    opacity:1;
+    transform: translateY(0);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 980px){
+    .nav-desktop{ display:none; }
+    .burger{ display:block; }
+    .about-grid{ grid-template-columns:1fr; }
+    .about-visual{ order:-1; max-width:420px; margin:0 auto; width:100%; }
+    .service-grid{ grid-template-columns: repeat(2, 1fr); }
+    .order-helper{ grid-template-columns:1fr; }
+    .review-grid{ grid-template-columns:1fr; }
+    .visit-grid{ grid-template-columns:1fr; }
+    .footer-grid{ grid-template-columns:1fr; gap:32px; }
+  }
+
+  @media (max-width: 560px){
+    section{ padding:72px 0; }
+    .hero{
+      min-height:84svh;
+      padding-top:108px;
+      padding-bottom:54px;
+      background-position:center;
+    }
+    .hero-actions{ flex-direction:column; align-items:stretch; }
+    .btn{ width:100%; }
+    .rating-badge{ align-items:flex-start; flex-wrap:wrap; }
+    .service-grid{ grid-template-columns:1fr; }
+    .order-copy,
+    .order-panel{ padding:28px 22px; }
+    .budget-row{ align-items:flex-start; flex-direction:column; gap:10px; }
+    .budget-value{ min-width:0; text-align:left; }
+    .rating-summary{ gap:12px; }
+    .review-who{ align-items:flex-start; flex-direction:column; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="container header-row">
+    <a href="#top" class="logo">Metamorphosis <small>Praha</small></a>
+
+    <nav class="nav-desktop" aria-label="Hlavní navigace">
+      <a href="#about">O nás</a>
+      <a href="#services">Služby</a>
+      <a href="#reviews">Recenze</a>
+      <a href="#visit">Návštěva</a>
+      <a href="tel:+420224817087" class="nav-cta">224 817 087</a>
+    </nav>
+
+    <button class="burger" id="burgerBtn" aria-label="Otevřít menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobilní navigace">
+  <a href="#about">O nás</a>
+  <a href="#services">Služby</a>
+  <a href="#reviews">Recenze</a>
+  <a href="#visit">Návštěva</a>
+  <a href="tel:+420224817087">224 817 087</a>
+</nav>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Metamorphosis květinový salon">
+    <div class="container">
+      <div class="hero-copy">
+        <p class="eyebrow">Floristické studio · Staré Město</p>
+        <h1>Metamorphosis</h1>
+        <p class="lede">Květinový salon v srdci Prahy pro kytice na míru, svatební floristiku a výzdobu okamžiků, které mají zůstat v paměti.</p>
+
+        <div class="rating-badge">
+          <span class="stars" aria-label="Pět hvězdiček">★★★★★</span>
+          <strong>4,7</strong>
+          <span class="dim">· 132 recenzí Google</span>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#visit" class="btn btn-primary">Objednat kytici</a>
+          <a href="#services" class="btn btn-ghost">Prohlédnout služby</a>
+        </div>
+
+        <p class="open-now" id="openStatus"><span class="dot"></span><span class="status-text">Kontrolujeme otevírací dobu...</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="container about-grid">
+      <div class="about-visual reveal">
+        <img src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=900&q=82" alt="Detail floristky připravující kytici z čerstvých květin" loading="lazy">
+      </div>
+
+      <div class="about-text reveal">
+        <p class="eyebrow">Náš příběh</p>
+        <h2>Floristika jako umění proměny</h2>
+        <p>V uličkách Starého Města, jen pár kroků od historického centra Prahy, vznikají kytice, které mají vlastní rytmus, barvu a náladu. Každá kompozice začíná výběrem čerstvých květin a končí detailem, který ji udělá osobní.</p>
+        <p>Tým Metamorphosis propojuje klasickou evropskou floristiku se současným, střídmým přístupem k formě. Ať jde o drobný dárek, svatební kytici nebo výzdobu celé události, skládáme květiny tak, aby působily přirozeně a zároveň slavnostně.</p>
+        <p class="quote-line">„Quality service and staff - flower selections are aplenty.“ - z recenze klientky, která u nás vybírala květiny pro svou svatbu.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Co nabízíme</p>
+        <h2>Služby studia</h2>
+        <p>Od každodenní kytice po velkou svatební instalaci. Každou objednávku řešíme s důrazem na sezónu, barvu, čerstvost a atmosféru místa.</p>
+      </div>
+
+      <div class="service-grid reveal">
+        <div class="service-card">
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+            <path d="M24 44V22"/>
+            <path d="M24 22c-8 0-13-6-13-13 7 0 13 5 13 13Z"/>
+            <path d="M24 22c8 0 13-6 13-13-7 0-13 5-13 13Z"/>
+            <circle cx="24" cy="14" r="3"/>
+          </svg>
+          <h3>Kytice na míru</h3>
+          <p>Osobní kompozice pro dárek, oslavu, interiér nebo důležitý okamžik. Vždy z čerstvých květin a s citem pro detail.</p>
+        </div>
+
+        <div class="service-card">
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+            <path d="M24 6c-6 0-9 5-9 9 0 6 9 15 9 15s9-9 9-15c0-4-3-9-9-9Z"/>
+            <path d="M14 30c-4 3-6 7-6 12h32c0-5-2-9-6-12"/>
+          </svg>
+          <h3>Svatební floristika</h3>
+          <p>Svatební kytice, korsáže, květinové dekorace a celkový koncept, který ladí se stylem obřadu i hostiny.</p>
+        </div>
+
+        <div class="service-card">
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+            <rect x="8" y="18" width="32" height="24" rx="1"/>
+            <path d="M8 26h32"/>
+            <path d="M18 18v-4a6 6 0 0 1 12 0v4"/>
+          </svg>
+          <h3>Výzdoba událostí</h3>
+          <p>Květinové instalace pro vernisáže, firemní akce, soukromé oslavy a reprezentativní prostory v Praze.</p>
+        </div>
+
+        <div class="service-card">
+          <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+            <path d="M24 8v8"/>
+            <path d="M24 40c9-4 15-12 15-20a15 15 0 0 0-30 0c0 8 6 16 15 20Z"/>
+            <path d="M24 16v16"/>
+          </svg>
+          <h3>Květinové předplatné</h3>
+          <p>Pravidelné dodávky čerstvých květin pro domov, kancelář, hotelovou recepci nebo restauraci.</p>
+        </div>
+      </div>
+
+      <div class="order-helper reveal" aria-label="Rychlý výběr kytice">
+        <div class="order-copy">
+          <p class="eyebrow">Rychlý výběr</p>
+          <h3>Najděte náladu kytice</h3>
+          <p>Zvolte příležitost, styl a orientační rozpočet. Vznikne krátký text objednávky, který si můžete zkopírovat a rovnou nadiktovat floristce po telefonu.</p>
+        </div>
+
+        <div class="order-panel">
+          <div class="control-group">
+            <div class="control-label">Příležitost</div>
+            <div class="segmented" data-choice-group="occasion">
+              <button type="button" class="is-selected" data-value="gift" aria-pressed="true">Dárek</button>
+              <button type="button" data-value="wedding" aria-pressed="false">Svatba</button>
+              <button type="button" data-value="interior" aria-pressed="false">Interiér</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label">Styl</div>
+            <div class="segmented" data-choice-group="style">
+              <button type="button" class="is-selected" data-value="soft" aria-pressed="true">Jemný</button>
+              <button type="button" data-value="bold" aria-pressed="false">Výrazný</button>
+              <button type="button" data-value="seasonal" aria-pressed="false">Sezónní</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="budgetRange">Rozpočet</label>
+            <div class="budget-row">
+              <input id="budgetRange" type="range" min="800" max="5000" step="100" value="1800">
+              <span class="budget-value" id="budgetValue">1 800 Kč</span>
+            </div>
+          </div>
+
+          <p class="suggestion" id="orderSuggestion" aria-live="polite"></p>
+          <div class="order-actions">
+            <button type="button" class="btn btn-primary" id="copyOrder">Kopírovat výběr</button>
+            <a href="tel:+420224817087" class="btn btn-ghost">Zavolat do studia</a>
+          </div>
+          <p class="copy-feedback" id="copyFeedback" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="reviews">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Recenze Google</p>
+        <h2>Co říkají naši klienti</h2>
+        <p>132 hodnocení od návštěvníků květinového salonu v Praze.</p>
+      </div>
+
+      <div class="rating-summary reveal">
+        <span class="big">4,7</span>
+        <div class="meta">
+          <div class="stars">★★★★★</div>
+          <div>na základě 132 recenzí Google</div>
+        </div>
+      </div>
+
+      <div class="review-grid reveal">
+        <div class="review-card">
+          <span class="stars">★★★★★</span>
+          <p>Jedno z nejlepších floristických studií, které jsem navštívila. Kytice pro svatbu jsme vybíraly společně se stylistkou a personál byl mimořádně pozorný. Výběr květin je opravdu bohatý.</p>
+          <div class="review-who">
+            <div>
+              <strong>Hollie Lin</strong><br>
+              <span>Místní průvodce · 363 recenzí</span>
+            </div>
+            <span>před 8 lety</span>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <span class="stars">★★★★★</span>
+          <p>Nejlepší květinářství, které jsem v Praze našla. Kytice i aranžmá jsou nádherné a ceny jsou vzhledem ke kvalitě velmi férové.</p>
+          <div class="review-who">
+            <div>
+              <strong>Cathy Shiflett</strong><br>
+              <span>11 recenzí</span>
+            </div>
+            <span>před 7 lety</span>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <span class="stars">★★★★★</span>
+          <p>Krásně upravený prostor, pestrý výběr rostlin a čerstvých květin ve výloze. Je příjemné se jen zastavit a vše si v klidu prohlédnout.</p>
+          <div class="review-who">
+            <div>
+              <strong>Stephen Kendall</strong><br>
+              <span>Místní průvodce · 817 recenzí</span>
+            </div>
+            <span>před 7 lety</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT / MAP -->
+  <section class="visit" id="visit">
+    <div class="container visit-grid">
+      <div class="reveal">
+        <p class="eyebrow">Zastavte se u nás</p>
+        <h2>Najděte studio</h2>
+
+        <div class="info-list">
+          <div class="info-row">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 22s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <div>
+              <div class="label">Adresa</div>
+              <div class="value">Haštalská 796/3, Staré Město, 110 00 Praha 1</div>
+              <div class="sub">Plus Code: 3CRF+84 Praha</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <div>
+              <div class="label">Otevírací doba</div>
+              <div class="value">Po-So: 9:00-19:00</div>
+              <div class="sub">Aktuální dostupnost si prosím ověřte telefonicky.</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 5c0 8 7 15 15 15l3-4-6-3-2 2c-3-1.5-5.5-4-7-7l2-2-3-6-4 3Z"/></svg>
+            <div>
+              <div class="label">Telefon</div>
+              <div class="value"><a href="tel:+420224817087">224 817 087</a></div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg>
+            <div>
+              <div class="label">Web</div>
+              <div class="value"><a href="https://metamorphosis.cz" target="_blank" rel="noopener">metamorphosis.cz</a></div>
+            </div>
+          </div>
+        </div>
+
+        <a href="tel:+420224817087" class="btn btn-primary" style="margin-top:32px;">Zavolat a objednat</a>
+      </div>
+
+      <div class="map-wrap reveal">
+        <iframe
+          src="https://www.google.com/maps?q=Metamorphosis+Hastalska+796%2F3+Stare+Mesto+110+00+Praha&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Mapa umístění Metamorphosis, Praha">
+        </iframe>
+        <div class="map-tag">
+          <div class="name">Metamorphosis</div>
+          <div class="addr">Haštalská 796/3, Staré Město</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Metamorphosis</div>
+        <p>Květinové studio ve Starém Městě v Praze. Kytice, svatební floristika a výzdoba událostí s reputací 4,7 hvězdičky.</p>
+      </div>
+      <div>
+        <h4>Navigace</h4>
+        <ul>
+          <li><a href="#about">O nás</a></li>
+          <li><a href="#services">Služby</a></li>
+          <li><a href="#reviews">Recenze</a></li>
+          <li><a href="#visit">Návštěva</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="tel:+420224817087">224 817 087</a></li>
+          <li><a href="https://metamorphosis.cz" target="_blank" rel="noopener">metamorphosis.cz</a></li>
+          <li>Haštalská 796/3, Praha 1</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="currentYear">2026</span> Metamorphosis. Všechna práva vyhrazena.</span>
+      <span>Floristické studio · Staré Město, Praha</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var header = document.getElementById('siteHeader');
+    var burger = document.getElementById('burgerBtn');
+    var mobileNav = document.getElementById('mobileNav');
+    var status = document.getElementById('openStatus');
+    var year = document.getElementById('currentYear');
+
+    function onScroll(){
+      if(window.scrollY > 40){ header.classList.add('is-scrolled'); }
+      else{ header.classList.remove('is-scrolled'); }
+    }
+    document.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
+
+    function closeMenu(){
+      mobileNav.classList.remove('is-open');
+      burger.classList.remove('is-open');
+      header.classList.remove('is-menu-open');
+      burger.setAttribute('aria-expanded','false');
+      burger.setAttribute('aria-label','Otevřít menu');
+      document.body.style.overflow = '';
+    }
+
+    burger.addEventListener('click', function(){
+      var open = mobileNav.classList.toggle('is-open');
+      burger.classList.toggle('is-open', open);
+      header.classList.toggle('is-menu-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Zavřít menu' : 'Otevřít menu');
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+
+    mobileNav.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', function(event){
+      if(event.key === 'Escape' && mobileNav.classList.contains('is-open')){
+        closeMenu();
+      }
+    });
+
+    var reveals = document.querySelectorAll('.reveal');
+    if('IntersectionObserver' in window){
+      var revealObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      reveals.forEach(function(el){ revealObserver.observe(el); });
+    } else {
+      reveals.forEach(function(el){ el.classList.add('is-visible'); });
+    }
+
+    var navLinks = document.querySelectorAll('.nav-desktop a[href^="#"]');
+    var sections = Array.prototype.map.call(navLinks, function(link){
+      return document.querySelector(link.getAttribute('href'));
+    }).filter(Boolean);
+
+    if('IntersectionObserver' in window && sections.length){
+      var navObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            navLinks.forEach(function(link){ link.classList.remove('is-active'); });
+            var current = document.querySelector('.nav-desktop a[href="#' + entry.target.id + '"]');
+            if(current){ current.classList.add('is-active'); }
+          }
+        });
+      }, { rootMargin: '-42% 0px -52% 0px', threshold: 0 });
+      sections.forEach(function(section){ navObserver.observe(section); });
+    }
+
+    function formatTime(hour){
+      return hour + ':00';
+    }
+
+    function updateOpenStatus(){
+      var schedule = {
+        0: null,
+        1: [9, 19],
+        2: [9, 19],
+        3: [9, 19],
+        4: [9, 19],
+        5: [9, 19],
+        6: [9, 19]
+      };
+      var pragueNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Prague' }));
+      var today = schedule[pragueNow.getDay()];
+      var minutes = pragueNow.getHours() * 60 + pragueNow.getMinutes();
+      var text = 'Otevírací dobu si prosím ověřte telefonicky.';
+      var closed = true;
+
+      if(today){
+        var opens = today[0] * 60;
+        var closes = today[1] * 60;
+        if(minutes < opens){
+          text = 'Dnes otevíráme v ' + formatTime(today[0]) + '.';
+        } else if(minutes >= opens && minutes < closes){
+          text = 'Otevřeno nyní · zavíráme v ' + formatTime(today[1]) + '.';
+          closed = false;
+        } else {
+          text = 'Dnes už máme zavřeno · zavolejte pro další termín.';
+        }
+      } else {
+        text = 'Dnes máme zavřeno · zavolejte pro domluvu.';
+      }
+
+      if(status){
+        status.classList.toggle('is-closed', closed);
+        status.querySelector('.status-text').textContent = text;
+      }
+    }
+
+    var state = {
+      occasion: 'gift',
+      style: 'soft',
+      budget: 1800
+    };
+
+    var labels = {
+      occasion: {
+        gift: 'dárkovou kytici',
+        wedding: 'svatební kompozici',
+        interior: 'aranžmá do interiéru'
+      },
+      style: {
+        soft: 'jemnou',
+        bold: 'výraznou',
+        seasonal: 'sezónní'
+      }
+    };
+
+    function formatMoney(value){
+      return new Intl.NumberFormat('cs-CZ').format(value) + ' Kč';
+    }
+
+    function buildOrderText(){
+      return 'Dobrý den, mám zájem o ' + labels.style[state.style] + ' ' + labels.occasion[state.occasion] + '. Orientační rozpočet je ' + formatMoney(state.budget) + '. Prosím o doporučení sezónních květin podle aktuální dostupnosti.';
+    }
+
+    function updateSuggestion(){
+      var budgetValue = document.getElementById('budgetValue');
+      var suggestion = document.getElementById('orderSuggestion');
+      var copyFeedback = document.getElementById('copyFeedback');
+      if(budgetValue){ budgetValue.textContent = formatMoney(state.budget); }
+      if(suggestion){
+        suggestion.innerHTML = '<strong>Text pro objednávku:</strong> ' + buildOrderText();
+      }
+      if(copyFeedback){ copyFeedback.textContent = ''; }
+    }
+
+    document.querySelectorAll('[data-choice-group]').forEach(function(group){
+      group.addEventListener('click', function(event){
+        var button = event.target.closest('button[data-value]');
+        if(!button){ return; }
+        var key = group.getAttribute('data-choice-group');
+        state[key] = button.getAttribute('data-value');
+        group.querySelectorAll('button').forEach(function(item){
+          var selected = item === button;
+          item.classList.toggle('is-selected', selected);
+          item.setAttribute('aria-pressed', selected ? 'true' : 'false');
+        });
+        updateSuggestion();
+      });
+    });
+
+    var range = document.getElementById('budgetRange');
+    if(range){
+      range.addEventListener('input', function(){
+        state.budget = Number(range.value);
+        updateSuggestion();
+      });
+    }
+
+    var copyOrder = document.getElementById('copyOrder');
+    if(copyOrder){
+      copyOrder.addEventListener('click', function(){
+        var text = buildOrderText() + ' Telefon na studio: 224 817 087.';
+        var feedback = document.getElementById('copyFeedback');
+
+        function showFeedback(message){
+          if(feedback){ feedback.textContent = message; }
+        }
+
+        function fallbackCopy(){
+          var textarea = document.createElement('textarea');
+          var copied = false;
+          textarea.value = text;
+          textarea.setAttribute('readonly', '');
+          textarea.style.position = 'fixed';
+          textarea.style.left = '-9999px';
+          document.body.appendChild(textarea);
+          textarea.select();
+
+          try{
+            copied = document.execCommand('copy');
+            showFeedback(copied ? 'Výběr je zkopírovaný. Teď ho můžete poslat nebo nadiktovat po telefonu.' : 'Výběr se nepodařilo zkopírovat, ale text objednávky je viditelný výše.');
+          } catch(error){
+            showFeedback('Výběr se nepodařilo zkopírovat, ale text objednávky je viditelný výše.');
+          }
+
+          document.body.removeChild(textarea);
+          return copied;
+        }
+
+        var copiedWithFallback = fallbackCopy();
+        if(!copiedWithFallback && navigator.clipboard && window.isSecureContext){
+          navigator.clipboard.writeText(text)
+            .then(function(){
+              showFeedback('Výběr je zkopírovaný. Teď ho můžete poslat nebo nadiktovat po telefonu.');
+            })
+            .catch(function(){
+              showFeedback('Výběr se nepodařilo zkopírovat, ale text objednávky je viditelný výše.');
+            });
+        }
+      });
+    }
+
+    if(year){ year.textContent = new Date().getFullYear(); }
+    updateOpenStatus();
+    updateSuggestion();
+  })();
+</script>
+
+</body>
+</html>
